@@ -8,9 +8,7 @@
 
 #include <iostream>
 #include <exception>
-#include <thread>
 #include <vector>
-
 #include <opencv2/opencv.hpp>
 
 
@@ -67,7 +65,7 @@ Arguments parseArgs(int argc, const char* argv[])
 
 int calculateLuminance()
 {
-    cv::VideoCapture video(0);//"/Users/dkerr/dev/video/Ref_768x432_yuv420p.mpg");
+    cv::VideoCapture video("/Users/dkerr/dev/video/Ref_768x432_yuv420p.mpg");
     if(!video.isOpened())
         return -1;
     
