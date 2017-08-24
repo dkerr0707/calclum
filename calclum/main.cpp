@@ -7,20 +7,24 @@
 //
 
 #include <iostream>
+#include <algorithm>
+#include <numeric>
 #include <exception>
 #include <vector>
 #include <opencv2/opencv.hpp>
 
 #include "ParseArgs.h"
 
-int calculateLuminance()
+double calculateLuminance(const std::string path)
 {
-    cv::VideoCapture video("/Users/dkerr/dev/video/Ref_768x432_yuv420p.mpg");
+    const int LUMINANCE_PLANE = 1;
+    
+    cv::VideoCapture video(path);
     if(!video.isOpened())
         return -1;
     
-    float frameLuminanceSum = 0;
-    float frameCounter = 0;
+    double frameLuminanceSum = 0;
+    double frameCounter = 0;
     cv::Mat xyz;
     cv::namedWindow("video",1);
     
@@ -33,10 +37,8 @@ int calculateLuminance()
             frameCounter++;
             
             cv::cvtColor(frame, xyz, cv::COLOR_BGR2XYZ);
-            float avgLuminance = cv::sum( xyz )[1] / (xyz.rows * xyz.cols);
+            double avgLuminance = cv::sum( xyz )[LUMINANCE_PLANE] / (xyz.rows * xyz.cols);
             frameLuminanceSum += avgLuminance;
-            std::cout << avgLuminance << std::endl;;
-
         
             imshow("video", frame);
         }
@@ -47,43 +49,93 @@ int calculateLuminance()
         if(cv::waitKey(1) >= 0) break;
     }
     
-    float videoLuminanceAverage = frameLuminanceSum / frameCounter;
+    double videoLuminanceAverage = frameLuminanceSum / frameCounter;
     
     std::cout << "Video Average = " << videoLuminanceAverage << std::endl;
     
-    return EXIT_SUCCESS;
+    return videoLuminanceAverage;
 }
+
+
+double getMedian(std::vector<double>& v)
+{
+    size_t size = v.size();
+    
+    std::sort(std::begin(v), std::end(v));
+    
+    double median;
+    
+    if (v.size() % 2 == 0)
+    {
+        median = ( v[size/2 - 1] + v[size/2] ) / 2;
+    }
+    else
+    {
+        median = v[size/2];
+    }
+    
+    return median;
+}
+
+class NoVideosToProcess: public std::exception
+{
+    virtual const char* what() const throw()
+    {
+        return "No videos to process";
+    }
+} noVideosToProcess;
+
+void outputData(std::vector<double>& v)
+{
+    std::cout << "---------" << std::endl << std::endl;
+    
+    auto min = std::min_element(std::begin(v), std::end(v));
+    std::cout << "Minimum - " << *min << std::endl;
+    
+    auto max = std::max_element(std::begin(v), std::end(v));
+    std::cout << "Max - " << *max << std::endl;
+    
+    double mean = std::accumulate( std::begin(v), std::end(v), 0.0) / v.size();
+    std::cout << "Mean - " << mean << std::endl;
+    
+    
+    double median = getMedian(v);
+    std::cout << "Median - " << median << std::endl;
+}
+
 
 
 int main(int argc, const char * argv[])
 {
-    Arguments arguments;
     
     try
     {
-        arguments = parseArgs(argc, argv);
+        Arguments arguments = parseArgs(argc, argv);
+        std::vector<std::string> filePaths = getFilePaths(arguments.path);
         
-        for (boost::filesystem::directory_iterator itr(arguments.path);
-             itr != boost::filesystem::directory_iterator();
-             ++itr)
+        std::vector<double> averageLuminance;
+        
+        for (std::vector<std::string>::iterator it = filePaths.begin();
+             it != filePaths.end();
+             ++it)
         {
-            std::cout << itr->path().filename() << ' '; // display filename only
-            if (is_regular_file(itr->status()))
+            std::cout << *it << std::endl;
+            double currentLuminance = calculateLuminance(*it);
+            if (currentLuminance >= 0)
             {
-                std::cout << " [" << file_size(itr->path()) << ']';
+                averageLuminance.push_back(currentLuminance);
             }
-            std::cout << "\n";
         }
         
-        calculateLuminance();
+        if(averageLuminance.size() == 0)
+            throw noVideosToProcess;
         
-        
-        
+        outputData(averageLuminance);
         
     }
     catch (std::exception& e)
     {
-        std::cout << e.what() << '\n';
+        std::cout << e.what() << std::endl;
         return EXIT_FAILURE;
     }
    

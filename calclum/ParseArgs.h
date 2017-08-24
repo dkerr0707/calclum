@@ -78,6 +78,24 @@ namespace
         
         return args;
     }
+    
+    std::vector<std::string> getFilePaths(std::string directoryPath)
+    {
+        std::vector<std::string> filePaths;
+        
+        for (boost::filesystem::directory_iterator itr(directoryPath);
+             itr != boost::filesystem::directory_iterator();
+             ++itr)
+        {
+            
+            if (is_regular_file(itr->status()))
+            {
+                filePaths.push_back(itr->path().string());
+            }
+        }
+        
+        return filePaths;
+    }
 
 }
 
