@@ -64,6 +64,10 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "/tmp/videoFiles 8"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "/Users/dkerr/dev/video 7"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

@@ -25,6 +25,7 @@
 /* Begin PBXFileReference section */
 		CBC009971F4D108B00F1D768 /* calclum */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = calclum; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBC0099A1F4D108B00F1D768 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		CBC009A11F4E673500F1D768 /* ParseArgs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseArgs.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				CBC0099A1F4D108B00F1D768 /* main.cpp */,
+				CBC009A11F4E673500F1D768 /* ParseArgs.h */,
 			);
 			path = calclum;
 			sourceTree = "<group>";
@@ -172,22 +174,14 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
-					"-lopencv_calib3d",
 					"-lopencv_core",
-					"-lopencv_features2d",
-					"-lopencv_flann",
 					"-lopencv_highgui",
 					"-lopencv_imgcodecs",
 					"-lopencv_imgproc",
-					"-lopencv_ml",
-					"-lopencv_objdetect",
-					"-lopencv_photo",
-					"-lopencv_shape",
-					"-lopencv_stitching",
-					"-lopencv_superres",
 					"-lopencv_video",
 					"-lopencv_videoio",
-					"-lopencv_videostab",
+					"-lboost_system",
+					"-lboost_filesystem",
 				);
 				SDKROOT = macosx;
 			};
@@ -232,22 +226,14 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = (
-					"-lopencv_calib3d",
 					"-lopencv_core",
-					"-lopencv_features2d",
-					"-lopencv_flann",
 					"-lopencv_highgui",
 					"-lopencv_imgcodecs",
 					"-lopencv_imgproc",
-					"-lopencv_ml",
-					"-lopencv_objdetect",
-					"-lopencv_photo",
-					"-lopencv_shape",
-					"-lopencv_stitching",
-					"-lopencv_superres",
 					"-lopencv_video",
 					"-lopencv_videoio",
-					"-lopencv_videostab",
+					"-lboost_system",
+					"-lboost_filesystem",
 				);
 				SDKROOT = macosx;
 			};

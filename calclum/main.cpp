@@ -11,57 +11,7 @@
 #include <vector>
 #include <opencv2/opencv.hpp>
 
-
-class InvalidArguments: public std::exception
-{
-    virtual const char* what() const throw()
-    {
-        return "Invalid Arguments";
-    }
-} invalidArguments;
-
-class InvalidNumberOfThreads: public std::exception
-{
-    virtual const char* what() const throw()
-    {
-        return "Invalid number of threads";
-    }
-} invalidNumberOfThreads;
-
-
-struct Arguments
-{
-    std::string path;
-    unsigned int numberOfThreads;
-};
-
-Arguments parseArgs(int argc, const char* argv[])
-{
-    const int NUM_OF_ARGUMENTS = 3;
-    const std::string USAGE = "Usage: calclum [directory of video files] [number of threads]";
-    
-    if (argc != NUM_OF_ARGUMENTS)
-    {
-        std::cout << USAGE << std::endl;
-        throw invalidArguments;
-    }
-    
-    Arguments args;
-    args.path = argv[1];
-    args.numberOfThreads = atoi(argv[2]);
-    
-    if (args.numberOfThreads == 0)
-    {
-        std::cout << USAGE << std::endl;
-        throw invalidNumberOfThreads;
-    }
-    
-    std::cout << args.path << std::endl;
-    std::cout << args.numberOfThreads << std::endl;
-    
-    return args;
-}
-
+#include "ParseArgs.h"
 
 int calculateLuminance()
 {
@@ -112,6 +62,18 @@ int main(int argc, const char * argv[])
     try
     {
         arguments = parseArgs(argc, argv);
+        
+        for (boost::filesystem::directory_iterator itr(arguments.path);
+             itr != boost::filesystem::directory_iterator();
+             ++itr)
+        {
+            std::cout << itr->path().filename() << ' '; // display filename only
+            if (is_regular_file(itr->status()))
+            {
+                std::cout << " [" << file_size(itr->path()) << ']';
+            }
+            std::cout << "\n";
+        }
         
         calculateLuminance();
         
