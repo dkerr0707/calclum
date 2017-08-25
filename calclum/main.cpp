@@ -11,51 +11,17 @@
 #include <numeric>
 #include <exception>
 #include <vector>
-#include <opencv2/opencv.hpp>
 
 #include "ParseArgs.h"
+#include "LuminanceCalculator.hpp"
 
-double calculateLuminance(const std::string path)
+class NoVideosToProcess: public std::exception
 {
-    const int LUMINANCE_PLANE = 1;
-    
-    cv::VideoCapture video(path);
-    if(!video.isOpened())
-        return -1;
-    
-    double frameLuminanceSum = 0;
-    double frameCounter = 0;
-    cv::Mat xyz;
-    cv::namedWindow("video",1);
-    
-    while(true)
+    virtual const char* what() const throw()
     {
-        cv::Mat frame;
-        video >> frame;
-        if(!frame.empty())
-        {
-            frameCounter++;
-            
-            cv::cvtColor(frame, xyz, cv::COLOR_BGR2XYZ);
-            double avgLuminance = cv::sum( xyz )[LUMINANCE_PLANE] / (xyz.rows * xyz.cols);
-            frameLuminanceSum += avgLuminance;
-        
-            imshow("video", frame);
-        }
-        else
-        {
-            break;
-        }
-        if(cv::waitKey(1) >= 0) break;
+        return "No videos to process";
     }
-    
-    double videoLuminanceAverage = frameLuminanceSum / frameCounter;
-    
-    std::cout << "Video Average = " << videoLuminanceAverage << std::endl;
-    
-    return videoLuminanceAverage;
-}
-
+} noVideosToProcess;
 
 double getMedian(std::vector<double>& v)
 {
@@ -76,14 +42,6 @@ double getMedian(std::vector<double>& v)
     
     return median;
 }
-
-class NoVideosToProcess: public std::exception
-{
-    virtual const char* what() const throw()
-    {
-        return "No videos to process";
-    }
-} noVideosToProcess;
 
 void outputData(std::vector<double>& v)
 {
@@ -110,6 +68,7 @@ int main(int argc, const char * argv[])
     
     try
     {
+        
         Arguments arguments = parseArgs(argc, argv);
         std::vector<std::string> filePaths = getFilePaths(arguments.path);
         
@@ -120,11 +79,11 @@ int main(int argc, const char * argv[])
              ++it)
         {
             std::cout << *it << std::endl;
-            double currentLuminance = calculateLuminance(*it);
-            if (currentLuminance >= 0)
-            {
-                averageLuminance.push_back(currentLuminance);
-            }
+            
+            LuminanceCalculator l(*it);
+            if(l.isValid())
+                averageLuminance.push_back(l.getLuminance());
+            
         }
         
         if(averageLuminance.size() == 0)

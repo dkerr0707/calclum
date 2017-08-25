@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CBC0099B1F4D108B00F1D768 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CBC0099A1F4D108B00F1D768 /* main.cpp */; };
+		CBC009A51F4FE4BA00F1D768 /* LuminanceCalculator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CBC009A31F4FE4BA00F1D768 /* LuminanceCalculator.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,6 +27,9 @@
 		CBC009971F4D108B00F1D768 /* calclum */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = calclum; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBC0099A1F4D108B00F1D768 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		CBC009A11F4E673500F1D768 /* ParseArgs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseArgs.h; sourceTree = "<group>"; };
+		CBC009A31F4FE4BA00F1D768 /* LuminanceCalculator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuminanceCalculator.cpp; sourceTree = "<group>"; };
+		CBC009A41F4FE4BA00F1D768 /* LuminanceCalculator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LuminanceCalculator.hpp; sourceTree = "<group>"; };
+		CBC009A61F4FED6F00F1D768 /* temp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = temp.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,9 @@
 			children = (
 				CBC0099A1F4D108B00F1D768 /* main.cpp */,
 				CBC009A11F4E673500F1D768 /* ParseArgs.h */,
+				CBC009A31F4FE4BA00F1D768 /* LuminanceCalculator.cpp */,
+				CBC009A41F4FE4BA00F1D768 /* LuminanceCalculator.hpp */,
+				CBC009A61F4FED6F00F1D768 /* temp.h */,
 			);
 			path = calclum;
 			sourceTree = "<group>";
@@ -121,6 +128,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBC009A51F4FE4BA00F1D768 /* LuminanceCalculator.cpp in Sources */,
 				CBC0099B1F4D108B00F1D768 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -176,12 +184,11 @@
 				OTHER_LDFLAGS = (
 					"-lopencv_core",
 					"-lopencv_highgui",
-					"-lopencv_imgcodecs",
 					"-lopencv_imgproc",
-					"-lopencv_video",
 					"-lopencv_videoio",
 					"-lboost_system",
 					"-lboost_filesystem",
+					"-lboost_thread-mt",
 				);
 				SDKROOT = macosx;
 			};
@@ -228,12 +235,11 @@
 				OTHER_LDFLAGS = (
 					"-lopencv_core",
 					"-lopencv_highgui",
-					"-lopencv_imgcodecs",
 					"-lopencv_imgproc",
-					"-lopencv_video",
 					"-lopencv_videoio",
 					"-lboost_system",
 					"-lboost_filesystem",
+					"-lboost_thread-mt",
 				);
 				SDKROOT = macosx;
 			};
