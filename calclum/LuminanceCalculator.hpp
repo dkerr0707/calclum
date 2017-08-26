@@ -9,17 +9,15 @@
 #ifndef LuminanceCalculator_hpp
 #define LuminanceCalculator_hpp
 
-#include <iostream>
 #include <opencv2/opencv.hpp>
-
-#include <boost/asio/io_service.hpp>
-#include <boost/bind.hpp>
 #include <boost/thread/thread.hpp>
 
 class Counter
 {
 public:
-    boost::mutex m;
+    Counter() : frameCount(0), luminanceSum(0) {};
+    
+    boost::mutex mutex;
     int frameCount;
     double luminanceSum;
     

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		CBC0099B1F4D108B00F1D768 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CBC0099A1F4D108B00F1D768 /* main.cpp */; };
 		CBC009A51F4FE4BA00F1D768 /* LuminanceCalculator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CBC009A31F4FE4BA00F1D768 /* LuminanceCalculator.cpp */; };
+		CBC009AC1F513C7D00F1D768 /* App.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CBC009AA1F513C7D00F1D768 /* App.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,6 +30,8 @@
 		CBC009A11F4E673500F1D768 /* ParseArgs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseArgs.h; sourceTree = "<group>"; };
 		CBC009A31F4FE4BA00F1D768 /* LuminanceCalculator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuminanceCalculator.cpp; sourceTree = "<group>"; };
 		CBC009A41F4FE4BA00F1D768 /* LuminanceCalculator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LuminanceCalculator.hpp; sourceTree = "<group>"; };
+		CBC009AA1F513C7D00F1D768 /* App.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = App.cpp; sourceTree = "<group>"; };
+		CBC009AB1F513C7D00F1D768 /* App.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = App.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +68,8 @@
 				CBC009A11F4E673500F1D768 /* ParseArgs.h */,
 				CBC009A31F4FE4BA00F1D768 /* LuminanceCalculator.cpp */,
 				CBC009A41F4FE4BA00F1D768 /* LuminanceCalculator.hpp */,
+				CBC009AA1F513C7D00F1D768 /* App.cpp */,
+				CBC009AB1F513C7D00F1D768 /* App.hpp */,
 			);
 			path = calclum;
 			sourceTree = "<group>";
@@ -126,6 +131,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBC009AC1F513C7D00F1D768 /* App.cpp in Sources */,
 				CBC009A51F4FE4BA00F1D768 /* LuminanceCalculator.cpp in Sources */,
 				CBC0099B1F4D108B00F1D768 /* main.cpp in Sources */,
 			);

@@ -6,6 +6,9 @@
 //  Copyright © 2017 David Kerr. All rights reserved.
 //
 
+#include <boost/asio/io_service.hpp>
+#include <boost/bind.hpp>
+
 #include "LuminanceCalculator.hpp"
 
 
@@ -19,7 +22,6 @@ LuminanceCalculator::LuminanceCalculator(const std::string path, int numberOfThr
     
         boost::asio::io_service ioService;
         boost::thread_group threadpool;
-        
         boost::asio::io_service::work work(ioService);
         
         for(int i = 0; i < numberOfThreads; i++)
@@ -28,20 +30,18 @@ LuminanceCalculator::LuminanceCalculator(const std::string path, int numberOfThr
         }
         
         Counter c;
-        c.frameCount = 0;
-        c.luminanceSum = 0;
         
         cv::Mat frame;
         while(video.read(frame))
         {
             ioService.post(boost::bind(LuminanceCalculator::getFrameLuminance, frame.clone(), boost::ref(c)));
-            //LuminanceCalculator::getFrameLuminance(frame, boost::ref(c));
         }
         
         ioService.stop();
         threadpool.join_all();
         
         m_videoLuminanceAverage = c.luminanceSum / c.frameCount;
+        
         std::cout << path << std::endl;
         std::cout << "Luminance Average = " << m_videoLuminanceAverage << std::endl;
         
@@ -54,9 +54,10 @@ void LuminanceCalculator::getFrameLuminance(cv::Mat& frame, Counter& counter)
     
     cv::Mat xyz;
     cv::cvtColor(frame, xyz, cv::COLOR_BGR2XYZ);
+    
     double avgLuminance = cv::sum( xyz )[LUMINANCE_PLANE] / (xyz.rows * xyz.cols);
     
-    boost::lock_guard<boost::mutex> guard(counter.m);
+    boost::lock_guard<boost::mutex> guard(counter.mutex);
     counter.frameCount++;
     counter.luminanceSum += avgLuminance;
 }

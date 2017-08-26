@@ -12,7 +12,7 @@
 #include <boost/filesystem.hpp>
 
 
-namespace Args
+namespace
 {
 
     class InvalidArguments: public std::exception
