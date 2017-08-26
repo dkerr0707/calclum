@@ -9,6 +9,7 @@
 #ifndef ParseArgs_h
 #define ParseArgs_h
 
+#include <iostream>
 #include <boost/filesystem.hpp>
 
 

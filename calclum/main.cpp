@@ -6,7 +6,6 @@
 //  Copyright © 2017 David Kerr. All rights reserved.
 //
 
-#include <iostream>
 #include <exception>
 #include <vector>
 
@@ -16,16 +15,13 @@
 
 int main(int argc, const char * argv[])
 {
-
     try
     {
-        
         Arguments arguments = parse(argc, argv);
         std::vector<std::string> filePaths = getFilePaths(arguments.path);
         
         App app;
         app.run(filePaths, arguments.numberOfThreads);
-        
     }
     catch (std::exception& e)
     {
@@ -33,6 +29,5 @@ int main(int argc, const char * argv[])
         return EXIT_FAILURE;
     }
    
-    
     return EXIT_SUCCESS;
 }

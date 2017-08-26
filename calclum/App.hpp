@@ -18,7 +18,7 @@ public:
     App(){};
     ~App(){};
     
-    void run(std::vector<std::string>& filePaths, int numberOfThreads);
+    void run(std::vector<std::string>& filePaths, const int numberOfThreads);
     
 private:
     
