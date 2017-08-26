@@ -12,7 +12,7 @@
 #include <boost/filesystem.hpp>
 
 
-namespace
+namespace Args
 {
 
     class InvalidArguments: public std::exception
@@ -46,7 +46,7 @@ namespace
         unsigned int numberOfThreads;
     };
 
-    Arguments parseArgs(int argc, const char* argv[])
+    Arguments parse(int argc, const char* argv[])
     {
         const int NUM_OF_ARGUMENTS = 3;
         const int PATH_INDEX = 1;

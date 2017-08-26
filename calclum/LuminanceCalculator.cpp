@@ -8,41 +8,62 @@
 
 #include "LuminanceCalculator.hpp"
 
-LuminanceCalculator::LuminanceCalculator(const std::string path)
+
+LuminanceCalculator::LuminanceCalculator(const std::string path, int numberOfThreads)
 {
-    const int LUMINANCE_PLANE = 1;
+    cv::VideoCapture video(path);
     
-    m_video.open(path);
-    
-    m_isValidVideo = m_video.isOpened() ? true : false;
+    m_isValidVideo = video.isOpened() ? true : false;
     if (m_isValidVideo)
     {
     
-        m_frameLuminanceSum = 0;
-        m_frameCounter = 0;
+        boost::asio::io_service ioService;
+        boost::thread_group threadpool;
         
-        cv::Mat xyz;
-        cv::namedWindow("video",1);
+        boost::asio::io_service::work work(ioService);
         
-        cv::Mat frame;
-        while(m_video.read(frame))
+        for(int i = 0; i < numberOfThreads; i++)
         {
-            
-            m_frameCounter++;
-            
-            cv::cvtColor(frame, xyz, cv::COLOR_BGR2XYZ);
-            double avgLuminance = cv::sum( xyz )[LUMINANCE_PLANE] / (xyz.rows * xyz.cols);
-            m_frameLuminanceSum += avgLuminance;
-            
-            imshow("video", frame);
-            
-            if(cv::waitKey(1) >= 0) break;
+            threadpool.create_thread( boost::bind(&boost::asio::io_service::run, &ioService) );
         }
         
-        m_videoLuminanceAverage = m_frameLuminanceSum / m_frameCounter;
-        std::cout << "Video Luminance Average = " << m_videoLuminanceAverage << std::endl;
+        Counter c;
+        c.frameCount = 0;
+        c.luminanceSum = 0;
+        
+        cv::Mat frame;
+        while(video.read(frame))
+        {
+            ioService.post(boost::bind(LuminanceCalculator::getFrameLuminance, frame.clone(), boost::ref(c)));
+            //LuminanceCalculator::getFrameLuminance(frame, boost::ref(c));
+        }
+        
+        ioService.stop();
+        threadpool.join_all();
+        
+        m_videoLuminanceAverage = c.luminanceSum / c.frameCount;
+        std::cout << path << std::endl;
+        std::cout << "Luminance Average = " << m_videoLuminanceAverage << std::endl;
         
     }
-    
-   
 }
+
+void LuminanceCalculator::getFrameLuminance(cv::Mat& frame, Counter& counter)
+{
+    const int LUMINANCE_PLANE = 1;
+    
+    cv::Mat xyz;
+    cv::cvtColor(frame, xyz, cv::COLOR_BGR2XYZ);
+    double avgLuminance = cv::sum( xyz )[LUMINANCE_PLANE] / (xyz.rows * xyz.cols);
+    
+    boost::lock_guard<boost::mutex> guard(counter.m);
+    counter.frameCount++;
+    counter.luminanceSum += avgLuminance;
+}
+
+
+
+
+
+
+

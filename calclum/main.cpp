@@ -69,8 +69,8 @@ int main(int argc, const char * argv[])
     try
     {
         
-        Arguments arguments = parseArgs(argc, argv);
-        std::vector<std::string> filePaths = getFilePaths(arguments.path);
+        Args::Arguments arguments = Args::parse(argc, argv);
+        std::vector<std::string> filePaths = Args::getFilePaths(arguments.path);
         
         std::vector<double> averageLuminance;
         
@@ -78,11 +78,12 @@ int main(int argc, const char * argv[])
              it != filePaths.end();
              ++it)
         {
-            std::cout << *it << std::endl;
             
-            LuminanceCalculator l(*it);
+            LuminanceCalculator l(*it, arguments.numberOfThreads);
             if(l.isValid())
+            {
                 averageLuminance.push_back(l.getLuminance());
+            }
             
         }
         

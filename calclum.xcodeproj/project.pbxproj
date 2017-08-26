@@ -29,7 +29,6 @@
 		CBC009A11F4E673500F1D768 /* ParseArgs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseArgs.h; sourceTree = "<group>"; };
 		CBC009A31F4FE4BA00F1D768 /* LuminanceCalculator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuminanceCalculator.cpp; sourceTree = "<group>"; };
 		CBC009A41F4FE4BA00F1D768 /* LuminanceCalculator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LuminanceCalculator.hpp; sourceTree = "<group>"; };
-		CBC009A61F4FED6F00F1D768 /* temp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = temp.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,7 +65,6 @@
 				CBC009A11F4E673500F1D768 /* ParseArgs.h */,
 				CBC009A31F4FE4BA00F1D768 /* LuminanceCalculator.cpp */,
 				CBC009A41F4FE4BA00F1D768 /* LuminanceCalculator.hpp */,
-				CBC009A61F4FED6F00F1D768 /* temp.h */,
 			);
 			path = calclum;
 			sourceTree = "<group>";
