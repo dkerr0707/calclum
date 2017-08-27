@@ -1,0 +1,21 @@
+
+
+This program computes the average luminance of each video file in a
+collection of files. It also computes the minimum, maximum, mean
+and median luminance value across all files.
+
+Dependencies :
+
+OpenCV - developed with version 3.3.0
+Boost - developed with version 1.6.5.0
+
+Usage:
+
+calclum [directory of video files] [number of threads]
+
+Example:
+
+calclum /tmp/videoFiles 8
+
+Would process the video files in the /tmp/videoFiles directory
+using 8 video processing threads

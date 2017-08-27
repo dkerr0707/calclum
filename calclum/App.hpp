@@ -20,10 +20,6 @@ public:
     
     void run(std::vector<std::string>& filePaths, const int numberOfThreads);
     
-private:
-    
-    void outputData(std::vector<double>& v);
-    
     class NoVideosToProcess: public std::exception
     {
         virtual const char* what() const throw()
@@ -32,6 +28,10 @@ private:
         }
     } noVideosToProcess;
     
+private:
+    
+    void outputData(std::vector<double>& v);
+
 };
 
 
